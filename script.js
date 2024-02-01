@@ -38,7 +38,7 @@ searchPlayer.addEventListener("input", function () {
   updateTable();
 });
 
-const createTableTdOrTh = function (elementType, innerText) {
+const createTableRow = function (elementType, innerText) {
   let element = document.createElement(elementType);
   element.textContent = innerText;
   return element;
@@ -50,12 +50,13 @@ const position = document.getElementById("position");
 
 let editingPlayer = null;
 
-const onClickPlayer = function (event) {
-  const htmlElementetSomViHarKlickatPa = event.target;
+const onClickPlayer = function (e) {
+  const htmlElementetSomViHarKlickatPa = e.target;
   console.log(htmlElementetSomViHarKlickatPa.dataset.stefansplayerid);
   const player = players.find(
-    (p) =>
-      p.id.toString() === htmlElementetSomViHarKlickatPa.dataset.stefansplayerid
+    (player) =>
+      player.id.toString() ===
+      htmlElementetSomViHarKlickatPa.dataset.stefansplayerid
   );
   playerName.value = player.name;
   jersey.value = player.jersey;
@@ -65,20 +66,19 @@ const onClickPlayer = function (event) {
   MicroModal.show("modal-1");
 };
 
-closeDialog.addEventListener("click", async (ev) => {
-  ev.preventDefault();
+closeDialog.addEventListener("click", async (e) => {
+  e.preventDefault();
   let url = "";
   let method = "";
-  console.log(url);
-  var o = {
+  let incomingEdits = {
     name: playerName.value,
     jersey: jersey.value,
     position: position.value,
   };
 
   if (editingPlayer != null) {
-    o.id = editingPlayer.id;
-    url = "http://localhost:3000/players/" + o.id;
+    incomingEdits.id = editingPlayer.id;
+    url = "http://localhost:3000/players/" + incomingEdits.id;
     method = "PUT";
   } else {
     url = "http://localhost:3000/players";
@@ -91,10 +91,10 @@ closeDialog.addEventListener("click", async (ev) => {
       "Content-Type": "application/json",
     },
     method: method,
-    body: JSON.stringify(o),
+    body: JSON.stringify(incomingEdits),
   });
 
-  let json = await response.json();
+  // let json = await response.json();
 
   players = await fetchPlayers();
   updateTable();
@@ -111,11 +111,8 @@ btnAdd.addEventListener("click", () => {
 });
 
 const updateTable = function () {
-  // while(allPlayersTBody.firstChild)
-  //     allPlayersTBody.firstChild.remove()
   allPlayersTBody.innerHTML = "";
 
-  // först ta bort alla children
   for (let i = 0; i < players.length; i++) {
     // hrmmm you do foreach if you'd like, much nicer!
     if (players[i].visible == false) {
@@ -123,10 +120,10 @@ const updateTable = function () {
     }
     let tr = document.createElement("tr");
 
-    tr.appendChild(createTableTdOrTh("th", players[i].name));
-    tr.appendChild(createTableTdOrTh("td", players[i].jersey));
-    tr.appendChild(createTableTdOrTh("td", players[i].position));
-    tr.appendChild(createTableTdOrTh("td", players[i].team));
+    tr.appendChild(createTableRow("th", players[i].name));
+    tr.appendChild(createTableRow("td", players[i].jersey));
+    tr.appendChild(createTableRow("td", players[i].position));
+    tr.appendChild(createTableRow("td", players[i].team));
 
     let td = document.createElement("td");
     let btn = document.createElement("button");
@@ -137,24 +134,8 @@ const updateTable = function () {
 
     btn.addEventListener("click", onClickPlayer);
 
-    // btn.addEventListener("click",function(){
-    //       alert(players[i].name)
-    //       //                      detta funkar fast med sk closures = magi vg
-    // })
-
     allPlayersTBody.appendChild(tr);
   }
-
-  // innerHTML och backticks `
-  // Problem - aldrig bra att bygga strängar som innehåller/kan innehålla html
-  //    injection
-  // for(let i = 0; i < players.length;i++) { // hrmmm you do foreach if you'd like, much nicer!
-  //                                         // I will show you in two weeks
-  //                                         //  or for p of players
-  //     let trText = `<tr><th scope="row">${players[i].name}</th><td>${players[i].jersey}</td><td>${players[i].position}</td><td>${players[i].team}</td></tr>`
-  //     allPlayersTBody.innerHTML += trText
-  // }
-  // createElement
 };
 
 updateTable();
