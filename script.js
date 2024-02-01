@@ -44,9 +44,10 @@ const createTableRow = function (elementType, innerText) {
   return element;
 };
 
-const playerName = document.getElementById("playerName");
-const jersey = document.getElementById("jersey");
-const position = document.getElementById("position");
+const inputPlayerName = document.getElementById("playerName");
+const inputJersey = document.getElementById("jersey");
+const inputPosition = document.getElementById("position");
+const inputTeam = document.getElementById("team");
 
 let editingPlayer = null;
 
@@ -58,9 +59,10 @@ const onClickPlayer = function (e) {
       player.id.toString() ===
       htmlElementetSomViHarKlickatPa.dataset.stefansplayerid
   );
-  playerName.value = player.name;
-  jersey.value = player.jersey;
-  position.value = player.position;
+  inputPlayerName.value = player.name;
+  inputJersey.value = player.jersey;
+  inputPosition.value = player.position;
+  inputTeam.value = player.team;
   editingPlayer = player;
 
   MicroModal.show("modal-1");
@@ -71,9 +73,10 @@ closeDialog.addEventListener("click", async (e) => {
   let url = "";
   let method = "";
   let incomingEdits = {
-    name: playerName.value,
-    jersey: jersey.value,
-    position: position.value,
+    name: inputPlayerName.value,
+    jersey: inputJersey.value,
+    position: inputPosition.value,
+    team: inputTeam.value,
   };
 
   if (editingPlayer != null) {
@@ -102,9 +105,10 @@ closeDialog.addEventListener("click", async (e) => {
 });
 
 btnAdd.addEventListener("click", () => {
-  playerName.value = "";
-  jersey.value = 0;
-  position.value = "";
+  inputPlayerName.value = "";
+  inputJersey.value = 0;
+  inputPosition.value = "";
+  inputTeam.value = "";
   editingPlayer = null;
 
   MicroModal.show("modal-1");
