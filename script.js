@@ -19,8 +19,12 @@ function Player(id, name, jersey, team, position) {
   };
 }
 
-async function fetchPlayers() {
-  return await (await fetch("http://localhost:3000/players")).json();
+async function fetchPlayers(sortBy = "id", orderBy = "asc") {
+  return await (
+    await fetch(
+      `http://localhost:3000/players?sortBy=${sortBy}&orderBy=${orderBy}`
+    )
+  ).json();
 }
 
 let players = await fetchPlayers();
