@@ -19,6 +19,8 @@ function Player(id, name, jersey, team, position) {
   };
 }
 
+let sortedBy = "";
+
 async function fetchPlayers(sortBy = "id", orderBy = "asc") {
   return await (
     await fetch(
@@ -161,3 +163,64 @@ MicroModal.init({
   awaitCloseAnimation: false, // [9]
   debugMode: true, // [10]
 });
+
+let sortingButtons = document.getElementsByClassName("sortbutton");
+
+for (let i = 0; i < sortingButtons.length; i++) {
+  sortingButtons[i].addEventListener("click", async (event) => {
+    const playerProperty = event.target.id.toLowerCase().slice(4);
+    if (sortedBy !== `${playerProperty}Asc`) {
+      players = await fetchPlayers(playerProperty, "asc");
+      sortedBy = `${playerProperty}Asc`;
+    } else {
+      players = await fetchPlayers(playerProperty, "desc");
+      sortedBy = `${playerProperty}Desc`;
+    }
+    updateTable();
+  });
+}
+
+// document.getElementById("sortName").addEventListener("click", async (event) => {
+//   console.log(event.target.parentNode.id);
+//   if (sortBy !== "nameAsc") {
+//     players = await fetchPlayers("name", "asc");
+//     sortBy = "nameAsc";
+//   } else {
+//     players = await fetchPlayers("name", "desc");
+//     sortBy = "";
+//   }
+//   updateTable();
+// });
+
+// document.getElementById("sortJersey").addEventListener("click", async () => {
+//   if (sortBy !== "jerseyAsc") {
+//     players = await fetchPlayers("jersey", "asc");
+//     sortBy = "jerseyAsc";
+//   } else {
+//     players = await fetchPlayers("jersey", "desc");
+//     sortBy = "";
+//   }
+//   updateTable();
+// });
+
+// document.getElementById("sortPosition").addEventListener("click", async () => {
+//   if (sortBy !== "positionAsc") {
+//     players = await fetchPlayers("position", "asc");
+//     sortBy = "positionAsc";
+//   } else {
+//     players = await fetchPlayers("position", "desc");
+//     sortBy = "";
+//   }
+//   updateTable();
+// });
+
+// document.getElementById("sortTeam").addEventListener("click", async () => {
+//   if (sortBy !== "teamAsc") {
+//     players = await fetchPlayers("team", "asc");
+//     sortBy = "teamAsc";
+//   } else {
+//     players = await fetchPlayers("team", "desc");
+//     sortBy = "";
+//   }
+//   updateTable();
+// });
