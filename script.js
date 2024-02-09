@@ -1,5 +1,6 @@
 const allPlayersTBody = document.querySelector("#allPlayers tbody");
 const searchPlayer = document.getElementById("searchPlayer");
+const searchPlayerInput = document.getElementById("searchPlayerInput");
 const btnAdd = document.getElementById("btnAdd");
 const closeDialog = document.getElementById("closeDialog");
 
@@ -20,28 +21,44 @@ function Player(id, name, jersey, team, position) {
 }
 
 let sortedBy = "";
+let keyCooldown = false;
 
 async function fetchPlayers(sortBy = "id", orderBy = "asc") {
   return await (
     await fetch(
-      `http://localhost:3000/players?sortBy=${sortBy}&orderBy=${orderBy}`
+      `http://localhost:3000/players?sortBy=${sortBy}&orderBy=${orderBy}&search=${searchPlayerInput.value}`
     )
   ).json();
 }
 
 let players = await fetchPlayers();
 
-searchPlayer.addEventListener("input", function () {
-  const searchFor = searchPlayer.value.toLowerCase();
-  for (let i = 0; i < players.length; i++) {
-    // TODO add a matches function
-    if (players[i].matches(searchFor)) {
-      players[i].visible = true;
-    } else {
-      players[i].visible = false;
-    }
-  }
+searchPlayer.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  players = await fetchPlayers();
   updateTable();
+
+  // for (let i = 0; i < players.length; i++) {
+  //   // TODO add a matches function
+  //   if (players[i].matches(searchFor)) {
+  //     players[i].visible = true;
+  //   } else {
+  //     players[i].visible = false;
+  //   }
+  // }
+  // updateTable();
+});
+
+searchPlayerInput.addEventListener("keyup", () => {
+  if (keyCooldown === false) {
+    keyCooldown = true;
+    const searchTimeoutMilliseconds = 500;
+    setTimeout(async () => {
+      players = await fetchPlayers();
+      updateTable();
+      keyCooldown = false;
+    }, searchTimeoutMilliseconds);
+  }
 });
 
 const createTableRow = function (elementType, innerText) {
