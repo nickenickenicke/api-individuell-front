@@ -20,13 +20,16 @@ function Player(id, name, jersey, team, position) {
   };
 }
 
-let sortedBy = "";
-let keyCooldown = false;
+let searchKeyUpCooldown = false;
+const displayProperties = {
+  sortBy: "id",
+  orderBy: "asc",
+};
 
-async function fetchPlayers(sortBy = "id", orderBy = "asc") {
+async function fetchPlayers() {
   return await (
     await fetch(
-      `http://localhost:3000/players?sortBy=${sortBy}&orderBy=${orderBy}&search=${searchPlayerInput.value}`
+      `http://localhost:3000/players?sortBy=${displayProperties.sortBy}&orderBy=${displayProperties.orderBy}&search=${searchPlayerInput.value}`
     )
   ).json();
 }
@@ -50,14 +53,14 @@ searchPlayer.addEventListener("submit", async (event) => {
 });
 
 searchPlayerInput.addEventListener("keyup", () => {
-  if (keyCooldown === false) {
-    keyCooldown = true;
-    const searchTimeoutMilliseconds = 500;
+  if (searchKeyUpCooldown === false) {
+    searchKeyUpCooldown = true;
+    const searchCooldownMilliseconds = 500;
     setTimeout(async () => {
       players = await fetchPlayers();
       updateTable();
-      keyCooldown = false;
-    }, searchTimeoutMilliseconds);
+      searchKeyUpCooldown = false;
+    }, searchCooldownMilliseconds);
   }
 });
 
@@ -186,58 +189,19 @@ let sortingButtons = document.getElementsByClassName("sortbutton");
 for (let i = 0; i < sortingButtons.length; i++) {
   sortingButtons[i].addEventListener("click", async (event) => {
     const playerProperty = event.target.id.toLowerCase().slice(4);
-    if (sortedBy !== `${playerProperty}Asc`) {
-      players = await fetchPlayers(playerProperty, "asc");
-      sortedBy = `${playerProperty}Asc`;
+
+    if (
+      displayProperties.sortBy !== playerProperty ||
+      displayProperties.orderBy !== "asc"
+    ) {
+      displayProperties.sortBy = playerProperty;
+      displayProperties.orderBy = "asc";
     } else {
-      players = await fetchPlayers(playerProperty, "desc");
-      sortedBy = `${playerProperty}Desc`;
+      displayProperties.sortBy = playerProperty;
+      displayProperties.orderBy = "desc";
     }
+
+    players = await fetchPlayers();
     updateTable();
   });
 }
-
-// document.getElementById("sortName").addEventListener("click", async (event) => {
-//   console.log(event.target.parentNode.id);
-//   if (sortBy !== "nameAsc") {
-//     players = await fetchPlayers("name", "asc");
-//     sortBy = "nameAsc";
-//   } else {
-//     players = await fetchPlayers("name", "desc");
-//     sortBy = "";
-//   }
-//   updateTable();
-// });
-
-// document.getElementById("sortJersey").addEventListener("click", async () => {
-//   if (sortBy !== "jerseyAsc") {
-//     players = await fetchPlayers("jersey", "asc");
-//     sortBy = "jerseyAsc";
-//   } else {
-//     players = await fetchPlayers("jersey", "desc");
-//     sortBy = "";
-//   }
-//   updateTable();
-// });
-
-// document.getElementById("sortPosition").addEventListener("click", async () => {
-//   if (sortBy !== "positionAsc") {
-//     players = await fetchPlayers("position", "asc");
-//     sortBy = "positionAsc";
-//   } else {
-//     players = await fetchPlayers("position", "desc");
-//     sortBy = "";
-//   }
-//   updateTable();
-// });
-
-// document.getElementById("sortTeam").addEventListener("click", async () => {
-//   if (sortBy !== "teamAsc") {
-//     players = await fetchPlayers("team", "asc");
-//     sortBy = "teamAsc";
-//   } else {
-//     players = await fetchPlayers("team", "desc");
-//     sortBy = "";
-//   }
-//   updateTable();
-// });
