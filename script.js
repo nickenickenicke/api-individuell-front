@@ -36,8 +36,8 @@ async function fetchPlayers() {
 
 let players = await fetchPlayers();
 
-searchPlayer.addEventListener("submit", async (event) => {
-  event.preventDefault();
+searchPlayer.addEventListener("submit", async (e) => {
+  e.preventDefault();
   players = await fetchPlayers();
   updateTable();
 
@@ -187,8 +187,8 @@ MicroModal.init({
 let sortingButtons = document.getElementsByClassName("sortbutton");
 
 for (let i = 0; i < sortingButtons.length; i++) {
-  sortingButtons[i].addEventListener("click", async (event) => {
-    const playerProperty = event.target.id.toLowerCase().slice(4);
+  sortingButtons[i].addEventListener("click", async (e) => {
+    const playerProperty = e.target.id.toLowerCase().slice(4);
 
     if (
       displayProperties.sortBy !== playerProperty ||
