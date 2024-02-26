@@ -24,12 +24,15 @@ let searchKeyUpCooldown = false;
 const displayProperties = {
   sortBy: "id",
   orderBy: "asc",
+  searchQuery: "",
+  currentPage: 1,
+  pageSize: 10,
 };
 
 async function fetchPlayers() {
   return await (
     await fetch(
-      `http://localhost:3000/players?sortBy=${displayProperties.sortBy}&orderBy=${displayProperties.orderBy}&search=${searchPlayerInput.value}`
+      `http://localhost:3000/players?sortBy=${displayProperties.sortBy}&orderBy=${displayProperties.orderBy}&search=${displayProperties.searchQuery}&currentPage=${displayProperties.currentPage}&pageSize=${displayProperties.pageSize}`
     )
   ).json();
 }
@@ -38,6 +41,7 @@ let players = await fetchPlayers();
 
 searchPlayer.addEventListener("submit", async (e) => {
   e.preventDefault();
+  displayProperties.searchQuery = searchPlayerInput.value;
   players = await fetchPlayers();
   updateTable();
 
@@ -54,6 +58,7 @@ searchPlayer.addEventListener("submit", async (e) => {
 
 searchPlayerInput.addEventListener("keyup", () => {
   if (searchKeyUpCooldown === false) {
+    displayProperties.searchQuery = searchPlayerInput.value;
     searchKeyUpCooldown = true;
     const searchCooldownMilliseconds = 500;
     setTimeout(async () => {
