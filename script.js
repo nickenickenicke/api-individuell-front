@@ -27,14 +27,18 @@ const displayProperties = {
   searchQuery: "",
   currentPage: 1,
   pageSize: 10,
+  offset: 0,
 };
+let totalPlayers = "";
 
 async function fetchPlayers() {
-  return await (
+  let allPlayers = await (
     await fetch(
-      `http://localhost:3000/players?sortBy=${displayProperties.sortBy}&orderBy=${displayProperties.orderBy}&search=${displayProperties.searchQuery}&currentPage=${displayProperties.currentPage}&pageSize=${displayProperties.pageSize}`
+      `http://localhost:3000/players?sortBy=${displayProperties.sortBy}&orderBy=${displayProperties.orderBy}&search=${displayProperties.searchQuery}&pageSize=${displayProperties.pageSize}&offset=${displayProperties.offset}`
     )
   ).json();
+  totalPlayers = allPlayers.total;
+  return allPlayers.result;
 }
 
 let players = await fetchPlayers();
