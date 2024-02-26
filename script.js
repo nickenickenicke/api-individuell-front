@@ -1,45 +1,22 @@
+import { fetchPlayers } from "./modules/fetchHelpers.js";
+import { createTableRow } from "./modules/htmlHelpers.js";
+
 const allPlayersTBody = document.querySelector("#allPlayers tbody");
 const searchPlayer = document.getElementById("searchPlayer");
 const searchPlayerInput = document.getElementById("searchPlayerInput");
 const btnAdd = document.getElementById("btnAdd");
 const closeDialog = document.getElementById("closeDialog");
 
-function Player(id, name, jersey, team, position) {
-  this.id = id;
-  this.name = name;
-  this.jersey = jersey;
-  this.team = team;
-  this.position = position;
-  this.visible = true;
-  this.matches = function (searchFor) {
-    return (
-      this.name.toLowerCase().includes(searchFor) ||
-      this.position.toLowerCase().includes(searchFor) ||
-      this.team.toLowerCase().includes(searchFor)
-    );
-  };
-}
-
 let searchKeyUpCooldown = false;
-const displayProperties = {
+export let displayProperties = {
   sortBy: "id",
   orderBy: "asc",
   searchQuery: "",
   currentPage: 1,
   pageSize: 10,
   offset: 0,
+  totalPlayers: 0,
 };
-let totalPlayers = "";
-
-async function fetchPlayers() {
-  let allPlayers = await (
-    await fetch(
-      `http://localhost:3000/players?sortBy=${displayProperties.sortBy}&orderBy=${displayProperties.orderBy}&search=${displayProperties.searchQuery}&pageSize=${displayProperties.pageSize}&offset=${displayProperties.offset}`
-    )
-  ).json();
-  totalPlayers = allPlayers.total;
-  return allPlayers.result;
-}
 
 let players = await fetchPlayers();
 
@@ -48,16 +25,6 @@ searchPlayer.addEventListener("submit", async (e) => {
   displayProperties.searchQuery = searchPlayerInput.value;
   players = await fetchPlayers();
   updateTable();
-
-  // for (let i = 0; i < players.length; i++) {
-  //   // TODO add a matches function
-  //   if (players[i].matches(searchFor)) {
-  //     players[i].visible = true;
-  //   } else {
-  //     players[i].visible = false;
-  //   }
-  // }
-  // updateTable();
 });
 
 searchPlayerInput.addEventListener("keyup", () => {
@@ -72,12 +39,6 @@ searchPlayerInput.addEventListener("keyup", () => {
     }, searchCooldownMilliseconds);
   }
 });
-
-const createTableRow = function (elementType, innerText) {
-  let element = document.createElement(elementType);
-  element.textContent = innerText;
-  return element;
-};
 
 const inputPlayerName = document.getElementById("playerName");
 const inputJersey = document.getElementById("jersey");
