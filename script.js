@@ -175,6 +175,7 @@ const updateTable = function () {
     let btn = document.createElement("button");
     btn.textContent = "EDIT";
     btn.dataset.stefansplayerid = players[i].id;
+    btn.classList.add("editButton");
     td.appendChild(btn);
     tr.appendChild(td);
 
