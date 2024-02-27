@@ -158,18 +158,8 @@ let sortingButtons = document.getElementsByClassName("sortbutton");
 
 for (let i = 0; i < sortingButtons.length; i++) {
   sortingButtons[i].addEventListener("click", async (e) => {
-    const playerProperty = e.target.id.toLowerCase().slice(4);
-
-    if (
-      displayProperties.sortBy !== playerProperty ||
-      displayProperties.orderBy !== "asc"
-    ) {
-      displayProperties.sortBy = playerProperty;
-      displayProperties.orderBy = "asc";
-    } else {
-      displayProperties.sortBy = playerProperty;
-      displayProperties.orderBy = "desc";
-    }
+    displayProperties.orderBy = e.target.dataset.orderBy;
+    displayProperties.sortBy = e.target.dataset.sortBy;
 
     players = await fetchPlayers();
     updateTable();
