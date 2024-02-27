@@ -7,7 +7,6 @@ const searchPlayerInput = document.getElementById("searchPlayerInput");
 const btnAdd = document.getElementById("btnAdd");
 const closeDialog = document.getElementById("closeDialog");
 
-let searchKeyUpCooldown = false;
 export let displayProperties = {
   sortBy: "id",
   orderBy: "asc",
@@ -19,7 +18,7 @@ export let displayProperties = {
 };
 let players = await fetchPlayers();
 
-// === SEARCH AND SORT ===
+// === SEARCH AND SORT===
 
 searchPlayer.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -28,6 +27,7 @@ searchPlayer.addEventListener("submit", async (e) => {
   updateTable();
 });
 
+let searchKeyUpCooldown = false;
 searchPlayerInput.addEventListener("keyup", () => {
   if (searchKeyUpCooldown === false) {
     displayProperties.searchQuery = searchPlayerInput.value;
@@ -52,6 +52,25 @@ for (let i = 0; i < sortingButtons.length; i++) {
     updateTable();
   });
 }
+
+const elementPagination = document.getElementById("pagination");
+const generatePagination = () => {
+  elementPagination.innerHTML = "";
+  const totalPages = Math.ceil(
+    displayProperties.totalPlayers / displayProperties.pageSize
+  );
+  for (let i = 0; i < totalPages; i++) {
+    const pageButton = document.createElement("button");
+    pageButton.innerText = i + 1;
+    pageButton.addEventListener("click", async () => {
+      displayProperties.currentPage = i + 1;
+      displayProperties.offset = displayProperties.pageSize * i;
+      players = await fetchPlayers();
+      updateTable();
+    });
+    elementPagination.appendChild(pageButton);
+  }
+};
 
 //=== MODAL ===
 
@@ -167,6 +186,7 @@ const updateTable = function () {
 
     allPlayersTBody.appendChild(tr);
   }
+  generatePagination();
 };
 
 updateTable();
