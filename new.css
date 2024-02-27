@@ -69,6 +69,10 @@ td {
   background: transparent;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   line-height: 1;
 }
@@ -165,4 +169,32 @@ tr:nth-child(odd) {
 /* Modal */
 .modal {
   display: none;
+}
+
+.modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__container {
+  background-color: violet;
+  width: 500px;
+  padding: 1rem;
+}
+
+.modal__container select,
+.modal__container input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.is-open {
+  display: block;
 }
