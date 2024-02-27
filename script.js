@@ -23,8 +23,7 @@ let players = await fetchPlayers();
 searchPlayer.addEventListener("submit", async (e) => {
   e.preventDefault();
   displayProperties.searchQuery = searchPlayerInput.value;
-  players = await fetchPlayers();
-  updateTable();
+  fetchAndUpdate();
 });
 
 let searchKeyUpCooldown = false;
@@ -34,8 +33,7 @@ searchPlayerInput.addEventListener("keyup", () => {
     searchKeyUpCooldown = true;
     const searchCooldownMilliseconds = 500;
     setTimeout(async () => {
-      players = await fetchPlayers();
-      updateTable();
+      fetchAndUpdate();
       searchKeyUpCooldown = false;
     }, searchCooldownMilliseconds);
   }
@@ -47,9 +45,7 @@ for (let i = 0; i < sortingButtons.length; i++) {
   sortingButtons[i].addEventListener("click", async (e) => {
     displayProperties.orderBy = e.target.dataset.orderBy;
     displayProperties.sortBy = e.target.dataset.sortBy;
-
-    players = await fetchPlayers();
-    updateTable();
+    fetchAndUpdate();
   });
 }
 
@@ -61,12 +57,14 @@ const generatePagination = () => {
   );
   for (let i = 0; i < totalPages; i++) {
     const pageButton = document.createElement("button");
+    if (i === displayProperties.currentPage - 1) {
+      pageButton.disabled = true;
+    }
     pageButton.innerText = i + 1;
     pageButton.addEventListener("click", async () => {
       displayProperties.currentPage = i + 1;
       displayProperties.offset = displayProperties.pageSize * i;
-      players = await fetchPlayers();
-      updateTable();
+      fetchAndUpdate();
     });
     elementPagination.appendChild(pageButton);
   }
@@ -143,8 +141,7 @@ closeDialog.addEventListener("click", async (e) => {
 
   // let json = await response.json();
 
-  players = await fetchPlayers();
-  updateTable();
+  fetchAndUpdate();
   MicroModal.close("modal-1");
 });
 
@@ -164,7 +161,6 @@ const updateTable = function () {
   allPlayersTBody.innerHTML = "";
 
   for (let i = 0; i < players.length; i++) {
-    // hrmmm you do foreach if you'd like, much nicer!
     if (players[i].visible == false) {
       continue;
     }
@@ -187,6 +183,11 @@ const updateTable = function () {
     allPlayersTBody.appendChild(tr);
   }
   generatePagination();
+};
+
+const fetchAndUpdate = async () => {
+  players = await fetchPlayers();
+  updateTable();
 };
 
 updateTable();
