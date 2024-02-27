@@ -17,8 +17,9 @@ export let displayProperties = {
   offset: 0,
   totalPlayers: 0,
 };
-
 let players = await fetchPlayers();
+
+// === SEARCH AND SORT ===
 
 searchPlayer.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -40,6 +41,34 @@ searchPlayerInput.addEventListener("keyup", () => {
   }
 });
 
+let sortingButtons = document.getElementsByClassName("sortbutton");
+
+for (let i = 0; i < sortingButtons.length; i++) {
+  sortingButtons[i].addEventListener("click", async (e) => {
+    displayProperties.orderBy = e.target.dataset.orderBy;
+    displayProperties.sortBy = e.target.dataset.sortBy;
+
+    players = await fetchPlayers();
+    updateTable();
+  });
+}
+
+//=== MODAL ===
+
+MicroModal.init({
+  onShow: (modal) => console.info(`${modal.id} is shown`), // [1]
+  onClose: (modal) => console.info(`${modal.id} is hidden`), // [2]
+
+  openTrigger: "data-custom-open", // [3]
+  closeTrigger: "data-custom-close", // [4]
+  openClass: "is-open", // [5]
+  disableScroll: true, // [6]
+  disableFocus: false, // [7]
+  awaitOpenAnimation: false, // [8]
+  awaitCloseAnimation: false, // [9]
+  debugMode: true, // [10]
+});
+
 const inputPlayerName = document.getElementById("playerName");
 const inputJersey = document.getElementById("jersey");
 const inputPosition = document.getElementById("position");
@@ -47,7 +76,7 @@ const inputTeam = document.getElementById("team");
 
 let editingPlayer = null;
 
-const onClickPlayer = function (e) {
+const onClickPlayer = (e) => {
   const htmlElementetSomViHarKlickatPa = e.target;
   console.log(htmlElementetSomViHarKlickatPa.dataset.stefansplayerid);
   const player = players.find(
@@ -110,6 +139,8 @@ btnAdd.addEventListener("click", () => {
   MicroModal.show("modal-1");
 });
 
+// === HTML CREATION ===
+
 const updateTable = function () {
   allPlayersTBody.innerHTML = "";
 
@@ -139,29 +170,3 @@ const updateTable = function () {
 };
 
 updateTable();
-
-MicroModal.init({
-  onShow: (modal) => console.info(`${modal.id} is shown`), // [1]
-  onClose: (modal) => console.info(`${modal.id} is hidden`), // [2]
-
-  openTrigger: "data-custom-open", // [3]
-  closeTrigger: "data-custom-close", // [4]
-  openClass: "is-open", // [5]
-  disableScroll: true, // [6]
-  disableFocus: false, // [7]
-  awaitOpenAnimation: false, // [8]
-  awaitCloseAnimation: false, // [9]
-  debugMode: true, // [10]
-});
-
-let sortingButtons = document.getElementsByClassName("sortbutton");
-
-for (let i = 0; i < sortingButtons.length; i++) {
-  sortingButtons[i].addEventListener("click", async (e) => {
-    displayProperties.orderBy = e.target.dataset.orderBy;
-    displayProperties.sortBy = e.target.dataset.sortBy;
-
-    players = await fetchPlayers();
-    updateTable();
-  });
-}
