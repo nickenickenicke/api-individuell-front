@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Stefans Exempel</title>
     <link rel="shortcut icon" href="https://picocss.com/favicon.ico" />
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-    <link rel="stylesheet" href="custom.css" />
+    <link rel="stylesheet" href="custom.css" /> -->
+    <link rel="stylesheet" href="new.css" />
   </head>
 
   <body>
@@ -39,65 +40,82 @@
           <thead>
             <tr>
               <th scope="col">
-                Name
-                <button
-                  data-sort-by="name"
-                  data-order-by="asc"
-                  class="sortbutton">
-                  ↑
-                </button>
-                <button
-                  data-sort-by="name"
-                  data-order-by="desc"
-                  class="sortbutton">
-                  ↓
-                </button>
+                <div class="th-top">
+                  Name
+                  <div class="sortbuttons">
+                    <button
+                      data-sort-by="name"
+                      data-order-by="asc"
+                      class="sortbutton">
+                      ↑
+                    </button>
+                    <button
+                      data-sort-by="name"
+                      data-order-by="desc"
+                      class="sortbutton">
+                      ↓
+                    </button>
+                  </div>
+                </div>
               </th>
               <th scope="col">
-                Jersey
-                <button
-                  data-sort-by="jersey"
-                  data-order-by="asc"
-                  class="sortbutton">
-                  ↑
-                </button>
-                <button
-                  data-sort-by="jersey"
-                  data-order-by="desc"
-                  class="sortbutton">
-                  ↓
-                </button>
+                <div class="th-top">
+                  Jersey
+                  <div class="sortbuttons">
+                    <button
+                      data-sort-by="jersey"
+                      data-order-by="asc"
+                      class="sortbutton">
+                      ↑
+                    </button>
+                    <button
+                      data-sort-by="jersey"
+                      data-order-by="desc"
+                      class="sortbutton">
+                      ↓
+                    </button>
+                  </div>
+                </div>
               </th>
               <th scope="col">
-                Position
-                <button
-                  data-sort-by="position"
-                  data-order-by="asc"
-                  class="sortbutton">
-                  ↑
-                </button>
-                <button
-                  data-sort-by="position"
-                  data-order-by="desc"
-                  class="sortbutton">
-                  ↓
-                </button>
+                <div class="th-top">
+                  Position
+                  <div class="sortbuttons">
+                    <button
+                      data-sort-by="position"
+                      data-order-by="asc"
+                      class="sortbutton">
+                      ↑
+                    </button>
+                    <button
+                      data-sort-by="position"
+                      data-order-by="desc"
+                      class="sortbutton">
+                      ↓
+                    </button>
+                  </div>
+                </div>
               </th>
               <th scope="col">
-                Team
-                <button
-                  data-sort-by="team"
-                  data-order-by="asc"
-                  class="sortbutton">
-                  ↑
-                </button>
-                <button
-                  data-sort-by="team"
-                  data-order-by="desc"
-                  class="sortbutton">
-                  ↓
-                </button>
+                <div class="th-top">
+                  Team
+                  <div class="sortbuttons">
+                    <button
+                      data-sort-by="team"
+                      data-order-by="asc"
+                      class="sortbutton">
+                      ↑
+                    </button>
+                    <button
+                      data-sort-by="team"
+                      data-order-by="desc"
+                      class="sortbutton">
+                      ↓
+                    </button>
+                  </div>
+                </div>
               </th>
+              <th scope="col"><div class="th-top"></div></th>
             </tr>
           </thead>
           <tbody>
@@ -114,7 +132,7 @@
     <!-- ./ Main -->
 
     <!-- Footer -->
-    <footer class="container">
+    <!-- <footer class="container">
       <small>
         Built with
         <a href="https://picocss.com">Pico</a>
@@ -124,7 +142,7 @@
           Source code
         </a>
       </small>
-    </footer>
+    </footer> -->
     <!-- ./ Footer -->
 
     <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">

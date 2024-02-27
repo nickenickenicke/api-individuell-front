@@ -166,7 +166,7 @@ const updateTable = function () {
     }
     let tr = document.createElement("tr");
 
-    tr.appendChild(createTableRow("th", players[i].name));
+    tr.appendChild(createTableRow("th", players[i].name, "playerName"));
     tr.appendChild(createTableRow("td", players[i].jersey));
     tr.appendChild(createTableRow("td", players[i].position));
     tr.appendChild(createTableRow("td", players[i].team));
