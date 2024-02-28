@@ -6,13 +6,14 @@ const searchPlayer = document.getElementById("searchPlayer");
 const searchPlayerInput = document.getElementById("searchPlayerInput");
 const btnAdd = document.getElementById("btnAdd");
 const closeDialog = document.getElementById("closeDialog");
+const dialogHeader = document.getElementById("modal-1-title");
 
 export let displayProperties = {
   sortBy: "id",
   orderBy: "asc",
   searchQuery: "",
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 15,
   offset: 0,
   totalPlayers: 0,
 };
@@ -57,6 +58,7 @@ const generatePagination = () => {
   );
   for (let i = 0; i < totalPages; i++) {
     const pageButton = document.createElement("button");
+    pageButton.classList.add("pageButton");
     if (i === displayProperties.currentPage - 1) {
       pageButton.disabled = true;
     }
@@ -94,6 +96,7 @@ const inputTeam = document.getElementById("team");
 let editingPlayer = null;
 
 const onClickPlayer = (e) => {
+  dialogHeader.textContent = "Edit player";
   const htmlElementetSomViHarKlickatPa = e.target;
   console.log(htmlElementetSomViHarKlickatPa.dataset.stefansplayerid);
   const player = players.find(
@@ -146,6 +149,7 @@ closeDialog.addEventListener("click", async (e) => {
 });
 
 btnAdd.addEventListener("click", () => {
+  dialogHeader.textContent = "Add new player";
   inputPlayerName.value = "";
   inputJersey.value = 0;
   inputPosition.value = "";
@@ -172,6 +176,7 @@ const updateTable = function () {
     tr.appendChild(createTableRow("td", players[i].team));
 
     let td = document.createElement("td");
+    td.classList.add("editButtonContainer");
     let btn = document.createElement("button");
     btn.textContent = "EDIT";
     btn.dataset.stefansplayerid = players[i].id;
