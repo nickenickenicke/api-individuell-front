@@ -117,6 +117,8 @@ table {
   --color-disabled-light: rgb(167, 167, 167);
   --color-disabled-dark: rgb(121, 121, 121);
 
+  --color-cancel: #ff8f8f;
+
   --color-black: #000000;
   --color-white: #ffffff;
 }
@@ -139,6 +141,16 @@ button {
   cursor: pointer;
 
   font-size: 1rem;
+
+  text-transform: uppercase;
+  color: var(--color-black);
+
+  background-color: var(--color-white);
+  border: 2px solid var(--color-black);
+}
+
+button:hover {
+  background-color: var(--color-tertiary-bright);
 }
 
 h1 {
@@ -173,7 +185,7 @@ h2 {
 
 #searchPlayerInput {
   width: 100%;
-  padding-inline: 1rem;
+  padding: 2rem 1rem;
   height: 3rem;
   font-size: 1.5rem;
   border: 2px solid var(--color-black);
@@ -241,6 +253,10 @@ tr:hover {
   background: none;
 }
 
+.sortbutton:hover {
+  background-color: unset;
+}
+
 .editButtonContainer {
   padding: 0;
 }
@@ -259,20 +275,17 @@ tr:hover {
 /* Pagination */
 
 #pagination {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .pageButton {
   width: 3rem;
   height: 3rem;
   margin-right: 0.5rem;
+  margin-top: 0.5rem;
 
   background-color: white;
   border: 2px solid black;
-}
-
-.pageButton:hover {
-  background-color: var(--color-tertiary-bright);
 }
 
 .pageButton:disabled {
@@ -287,19 +300,8 @@ tr:hover {
 #btnAdd {
   width: 100%;
   margin-top: 1rem;
-
   padding: 1rem;
-
   font-size: 1.5rem;
-  text-transform: uppercase;
-  color: black;
-
-  background-color: white;
-  border: 2px solid black;
-}
-
-#btnAdd:hover {
-  background-color: var(--color-tertiary-bright);
 }
 
 /* Modal */
@@ -323,7 +325,6 @@ tr:hover {
   width: 500px;
   padding: 1rem;
   border: 0;
-  /* border: 2px solid var(--color-black); */
 }
 
 .modal__content {
@@ -347,4 +348,20 @@ tr:hover {
 
 .is-open {
   display: block;
+}
+
+.modal__button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  background-color: var(--color-tertiary);
+}
+
+.modal__button--cancel {
+  background-color: var(--color-white);
+}
+
+.modal__button--cancel:hover {
+  background-color: var(--color-cancel);
 }
