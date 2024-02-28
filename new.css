@@ -118,6 +118,7 @@ table {
   --color-disabled-dark: rgb(121, 121, 121);
 
   --color-cancel: #ff8f8f;
+  --color-error: #ff0000;
 
   --color-black: #000000;
   --color-white: #ffffff;
@@ -318,6 +319,7 @@ tr:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: scroll;
 }
 
 .modal__container {
@@ -364,4 +366,8 @@ tr:hover {
 
 .modal__button--cancel:hover {
   background-color: var(--color-cancel);
+}
+
+.modal__error {
+  color: var(--color-error);
 }

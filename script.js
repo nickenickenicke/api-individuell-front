@@ -7,6 +7,7 @@ const searchPlayerInput = document.getElementById("searchPlayerInput");
 const btnAdd = document.getElementById("btnAdd");
 const closeDialog = document.getElementById("closeDialog");
 const dialogHeader = document.getElementById("modal-1-title");
+const errorMessage = document.getElementById("modal-error");
 
 export let displayProperties = {
   sortBy: "id",
@@ -74,6 +75,10 @@ const generatePagination = () => {
 
 //=== MODAL ===
 
+let clearError = () => {
+  errorMessage.innerText = "";
+};
+
 MicroModal.init({
   onShow: (modal) => console.info(`${modal.id} is shown`), // [1]
   onClose: (modal) => console.info(`${modal.id} is hidden`), // [2]
@@ -96,6 +101,7 @@ const inputTeam = document.getElementById("team");
 let editingPlayer = null;
 
 const onClickPlayer = (e) => {
+  clearError();
   dialogHeader.textContent = "Edit player";
   const htmlElementetSomViHarKlickatPa = e.target;
   console.log(htmlElementetSomViHarKlickatPa.dataset.stefansplayerid);
@@ -144,11 +150,19 @@ closeDialog.addEventListener("click", async (e) => {
 
   // let json = await response.json();
 
-  fetchAndUpdate();
-  MicroModal.close("modal-1");
+  if (response.ok) {
+    fetchAndUpdate();
+    MicroModal.close("modal-1");
+    clearError();
+  } else {
+    let data = await response.json();
+    console.log(data);
+    errorMessage.innerText = data.errors[0].msg;
+  }
 });
 
 btnAdd.addEventListener("click", () => {
+  clearError();
   dialogHeader.textContent = "Add new player";
   inputPlayerName.value = "";
   inputJersey.value = 0;
